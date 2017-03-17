@@ -86,10 +86,12 @@ packages:
     - ./boot/async
     - ./boot/aeson
     - ./boot/attoparsec
+    - ./boot/base-compat
     - ./boot/case-insensitive
     - ./boot/dlist
     - ./boot/extensible-exceptions
     - ./boot/fail
+    - ./boot/integer-logarithms
     - ./boot/hashable
     - ./boot/mtl
     - ./boot/parallel
@@ -98,6 +100,8 @@ packages:
     - ./boot/syb
     - ./boot/tagged
     - ./boot/text
+    - ./boot/time-locale-compat
+    - ./boot/transformers-compat
     - ./boot/unordered-containers
     - ./boot/vector
     - ./ghcjs/ghcjs-base
@@ -137,9 +141,10 @@ sources:
   shims-dev:             https://github.com/ghcjs/shims
   shims-dev-branch:      master
 
-  ghcjs-boot-dev:        https://github.com/ghcjs/ghcjs-boot
-  ghcjs-boot-dev-branch: master
-
+  #ghcjs-boot-dev:        https://github.com/ghcjs/ghcjs-boot
+  #ghcjs-boot-dev-branch: master
+  ghcjs-boot-dev:        /blizzard/ghcjs/ghcjs-boot
+  ghcjs-boot-dev-branch: lts-8.0
 
   # build tools for Windows (http url, local tar archive or directory)
 
