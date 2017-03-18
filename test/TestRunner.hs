@@ -86,13 +86,26 @@ getTestDir _ = do
 main :: IO ()
 main = shellyE . silently . withTmpDir $ liftIO . setupTests
 
+
+showParseError :: ParseError -> String
+showParseError (ErrorMsg s) = s
+showParseError (InfoMsg s) = s
+showParseError (ShowHelpText) = "ShowHelpText"
+showParseError (UnknownError) = "UnknownError"
+showParseError (MissingError _ _) = "MissingError"
+
 setupTests :: FilePath -> IO ()
-setupTests tmpDir = do
+setupTests _tmpDir = do
+  let tmpDir = (fromString "/blizzard/ghcjs/ghcjs/tmp")
+
   args <- getArgs
   (testArgs, leftoverArgs) <-
-    case runP (runParser AllowOpts optParser args) (prefs idm) of
-      (Left err, _ctx)    -> error ("error parsing arguments: " ++ show err)
+    case runP (runParser SkipOpts CmdStart optParser args) (prefs idm) of
+      (Left err, _ctx)    -> error ("error parsing arguments: " ++ showParseError err)
       (Right (a,l), _ctx) -> return (a,l)
+
+  putStrLn (show tmpDir)
+  putStrLn (show testArgs)
   when (taHelp testArgs) $ do
     defaultMainWithArgs [] ["--help"] `C.catch` \(e::ExitCode) -> return ()
     putStrLn $ renderHelp 80 (parserHelp (prefs idm) optParser)
@@ -316,7 +329,7 @@ testCaseLog :: TestOpts -> TestName -> Assertion -> Test
 testCaseLog opts name assertion = testCase name assertion'
   where
     assertion'   = assertion `C.catch` \e@(HUnitFailure _ msg) -> do
-      let errMsg = listToMaybe (filter (not . null) (lines msg))
+      let errMsg = listToMaybe (filter (not . null) (lines $ show msg))
           err    = name ++ maybe "" (\x -> " (" ++ trunc (dropName x) ++ ")") errMsg
           trunc xs | length xs > 43 = take 40 xs ++ "..."
                    | otherwise = xs

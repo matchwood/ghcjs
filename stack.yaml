@@ -1,1 +1,13 @@
-resolver: lts-3.6
+resolver: lts-8.0
+allow-newer: true
+packages:
+- '.'
+- location:
+    git: git@github.com:basvandijk/haddock.git
+    commit: f4c5e46ded05a4b8884f5ad6f3102f79ff3bb127
+  extra-dep: true
+  subdirs:
+  - haddock-api
+
+extra-deps:
+- shelly-1.6.8.3
