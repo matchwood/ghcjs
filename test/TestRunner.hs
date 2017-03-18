@@ -95,8 +95,7 @@ showParseError (UnknownError) = "UnknownError"
 showParseError (MissingError _ _) = "MissingError"
 
 setupTests :: FilePath -> IO ()
-setupTests _tmpDir = do
-  let tmpDir = (fromString "/blizzard/ghcjs/ghcjs/tmp")
+setupTests tmpDir = do
 
   args <- getArgs
   (testArgs, leftoverArgs) <-
@@ -104,8 +103,6 @@ setupTests _tmpDir = do
       (Left err, _ctx)    -> error ("error parsing arguments: " ++ showParseError err)
       (Right (a,l), _ctx) -> return (a,l)
 
-  putStrLn (show tmpDir)
-  putStrLn (show testArgs)
   when (taHelp testArgs) $ do
     defaultMainWithArgs [] ["--help"] `C.catch` \(e::ExitCode) -> return ()
     putStrLn $ renderHelp 80 (parserHelp (prefs idm) optParser)
