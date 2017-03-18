@@ -128,7 +128,7 @@ intersperse _ []    = []
 intersperse _ [h]   = [h]
 intersperse x (h:t) = h : x : (intersperse x t)
 
-instance (GShow a) => GShow [a] where
+instance {-# OVERLAPPABLE #-} (GShow a) => GShow [a] where
   gshowsPrec _ l =   showChar '['
                    . foldr (.) id
                       (intersperse (showChar ',') (map (gshowsPrec 0) l))
