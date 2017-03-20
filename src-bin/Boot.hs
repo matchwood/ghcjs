@@ -43,6 +43,7 @@ import           Control.Monad.Reader            (MonadReader, ReaderT(..), Mona
 import qualified Data.Aeson                      as Aeson
 import qualified Data.ByteString                 as B
 import qualified Data.ByteString.Lazy            as BL
+import qualified Data.ByteString.Lazy.Char8      as BLC
 import           Data.Char
 import           Data.Data
 import           Data.Data.Lens
@@ -299,6 +300,8 @@ main = do
       mapM_ addCheckpoint ["ghcjs-boot checkpoints file", "init"]
       installBuildTools
       bool (e ^. beSettings . bsDev) installDevelopmentTree installReleaseTree
+      when (True) ((liftIO $ putStrLn "DONE WITH DEV TREE") >> (liftIO $ exitFailure))
+
       initPackageDB
       cleanCache
       installRts
@@ -1050,6 +1053,56 @@ writeBinary file bs = do
   file' <- absPath file
   liftIO $ BL.writeFile (toStringI file') bs
 
+
+normaliseLongLink :: Tar.Entries Tar.FormatError -> Either Tar.FormatError (Tar.Entries Tar.FormatError)
+normaliseLongLink ents =
+  case Tar.foldlEntries convertEntry (Tar.Done, Nothing) ents of
+    Left (e, _) -> Left e
+    Right x -> Right . fst $ x
+
+  where
+    convertEntry :: (Tar.Entries Tar.FormatError, Maybe Tar.Entry) -> Tar.Entry -> (Tar.Entries Tar.FormatError, Maybe Tar.Entry)
+    convertEntry (inEnts, _) newEntry
+      | (Tar.OtherEntryType 'L' _ _) <- Tar.entryContent newEntry
+         = (inEnts, Just newEntry)
+
+    convertEntry (inEnts, oldEntry) newEntry
+      | Just (Tar.OtherEntryType 'L' bs _) <- fmap Tar.entryContent oldEntry
+        = (addEntry inEnts (setNewTarPath newEntry bs) , Nothing)
+    convertEntry (inEnts, _) newEntry = (addEntry inEnts newEntry, Nothing)
+
+    addEntry :: Tar.Entries Tar.FormatError -> Tar.Entry -> Tar.Entries Tar.FormatError
+    addEntry Tar.Done e = Tar.Next e Tar.Done
+    addEntry (Tar.Next oldE ents) e = Tar.Next oldE (addEntry ents e)
+    addEntry f _ = f
+    setNewTarPath :: Tar.Entry -> BL.ByteString -> Tar.Entry
+    setNewTarPath e bs =
+      let isDir = case (Tar.entryContent e) of
+                    Tar.Directory{} -> True
+                    _ -> False
+      in case Tar.toTarPath isDir (BLC.unpack $ BL.reverse . (BL.dropWhile (== 0)) . BL.reverse $ bs) of
+        -- currently ignoring the issue if the filepath is too long to be represented in TarPath - to sort this out we need to rewrite unpackTar to handle the longlinks (or convert to a different data type)
+        Left _ -> e
+        Right np -> e{Tar.entryTarPath = np}
+
+
+-- Helpful for debugging tar entries
+_debugEntries :: Tar.Entries Tar.FormatError -> IO ()
+_debugEntries es = do
+  let les = Tar.foldEntries (\e xs -> e:xs) [] (const []) es
+  void $ (flip mapM) les $ \e -> do
+    putStrLn $ (entryType $ Tar.entryContent e) ++ " |  " ++ show (Tar.entryTarPath e)
+  where
+    entryType :: Tar.EntryContent -> String
+    entryType (Tar.NormalFile{}) = "NormalFile"
+    entryType (Tar.Directory{}) = "Directory"
+    entryType (Tar.SymbolicLink{}) = "SymbolicLink"
+    entryType (Tar.HardLink{}) = "HardLink"
+    entryType (Tar.CharacterDevice{}) = "CharacterDevice"
+    entryType (Tar.BlockDevice{}) = "BlockDevice"
+    entryType (Tar.NamedPipe{}) = "NamedPipe"
+    entryType (Tar.OtherEntryType tc bs _) = "OtherEntryType - " ++ show tc ++ show bs
+
 -- | unpack a tar file (does not support compression)
 --   only supports files, does not try to emulate symlinks
 unpackTar :: Bool     -- ^ strip the first directory component?
@@ -1058,7 +1111,12 @@ unpackTar :: Bool     -- ^ strip the first directory component?
           -> B ()
 unpackTar stripFirst dest tarFile = do
   mkdir_p dest
-  entries <- Tar.read . BL.fromStrict <$> readBinary tarFile
+  entriesRaw <- Tar.read . BL.fromStrict <$> readBinary tarFile
+  entries <-
+    case normaliseLongLink entriesRaw of
+      Left err -> failWith $ "error normalising tar: " <> showT err
+      Right e -> return  e
+
   void $ Tar.foldEntries (\e -> (>>=checkExtract e)) (return Nothing) (\e -> failWith $ "error unpacking tar: " <> showT e) entries
     where
       dropComps = if stripFirst then 1 else 0
@@ -1091,8 +1149,9 @@ unpackTar stripFirst dest tarFile = do
         | Tar.Directory <- Tar.entryContent e = do
             mkdir_p tgt
             setPermissions (Tar.entryPermissions e) tgt
-        | otherwise =
-            msg warn ("ignoring unexpected entry type in tar. only normal files and directories (no links) are supported:\n    " <> toTextI tgt)
+        | otherwise = do
+            let entryContent = Tar.entryContent e
+            msg warn ("ignoring unexpected entry type in tar. only normal files and directories (no links) are supported:\n    " <> (T.pack $ show entryContent) <> toTextI tgt)
       setPermissions mode tgt = do
         absTgt <- absPath tgt
         msgD trace ("setting permissions of " <> toTextI tgt <> " to " <> showT mode)
