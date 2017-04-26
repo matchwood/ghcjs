@@ -95,6 +95,7 @@ packages:
     - ./boot/hashable
     - ./boot/mtl
     - ./boot/parallel
+    - ./boot/random
     - ./boot/scientific
     - ./boot/stm
     - ./boot/syb
@@ -103,6 +104,7 @@ packages:
     - ./boot/time-locale-compat
     - ./boot/transformers-compat
     - ./boot/unordered-containers
+    - ./boot/uuid/uuid-types
     - ./boot/vector
     - ./ghcjs/ghcjs-base
 
