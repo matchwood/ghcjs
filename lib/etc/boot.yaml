@@ -144,7 +144,7 @@ sources:
   #ghcjs-boot-dev:        https://github.com/ghcjs/ghcjs-boot
   #ghcjs-boot-dev-branch: master
   ghcjs-boot-dev:        /blizzard/ghcjs/ghcjs-boot
-  ghcjs-boot-dev-branch: lts-8.5
+  ghcjs-boot-dev-branch: lts-8.11
 
   # build tools for Windows (http url, local tar archive or directory)
 
