@@ -25,7 +25,7 @@
 set -e
 
 SHIMS_ORIGIN=https://github.com/ghcjs/shims.git
-BOOT_ORIGIN=https://github.com/ghcjs/ghcjs-boot.git
+BOOT_ORIGIN=https://github.com/matchwood/ghcjs-boot.git
 
 # file patters to ignore from the distribution archives
 SHIMS_EXCLUDE="
@@ -97,7 +97,7 @@ prepare_primops() {
       alex -g -o Lexer.hs Lexer.x
       happy -agc -o Parser.hs Parser.y
     )
-} 
+}
 
 # this builds precompiled JavaScript for the Setup.hs scripts for the
 # stage1 packages. ghc-prim is the only stage1 package that has a custom
@@ -157,23 +157,23 @@ echo "preparing boot and shims cache in ${BUILDDIR}"
   # collect shims
   ( git clone "${SHIMS_ORIGIN}"
     cd shims
-    git checkout "${BRANCH}"
+    git checkout "ghc-8.0"
     cd ..
     echo "${SHIMS_EXCLUDE}" > shims.exclude
     tar -X shims.exclude -cf shims.tar shims
   )
-  
+
   # prepare ghcjs-boot repository
   ( git clone "${BOOT_ORIGIN}"
     cd ghcjs-boot
     git checkout "${BRANCH}"
     git submodule update --init --recursive
     prepare_packages "boot"
-    
+
     prepare_primops
     # prepare_setup_scripts
     cd ..
-    echo "${BOOT_EXCLUDE}" > boot.exclude    
+    echo "${BOOT_EXCLUDE}" > boot.exclude
     tar -X boot.exclude -cf boot.tar ghcjs-boot
   )
 )
