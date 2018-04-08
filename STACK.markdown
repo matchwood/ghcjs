@@ -1,3 +1,8 @@
+Clone repo and then run
+    
+    stack build
+
+
  To run tests after building with stack you must install random, QuickCheck and parsec for ghcjs and ghc. The easiest way I've found to do this is to run
 
     # install ghc versions - will use the stack snapshot packages
