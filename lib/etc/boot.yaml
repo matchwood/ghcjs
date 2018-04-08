@@ -147,8 +147,8 @@ sources:
   shims-dev:             https://github.com/ghcjs/shims
   shims-dev-branch:      master
 
-  ghcjs-boot-dev:        https://github.com/ghcjs/ghcjs-boot
-  ghcjs-boot-dev-branch: master
+  ghcjs-boot-dev:        https://github.com/matchwood/ghcjs-boot
+  ghcjs-boot-dev-branch: lts-9.21
 
 
   # build tools for Windows (http url, local tar archive or directory)
