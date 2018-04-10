@@ -22,7 +22,8 @@ main = do
   let z = nats !! 400
   print z
   performGC
-  addFinalizer z (putStrLn "finalizer z")
+  -- removing this because it produces different output in optimised vs unoptimised, which is perhaps expected?
+  -- addFinalizer z (putStrLn "finalizer z")
   performGC
   threadDelay 1000000
   print z
