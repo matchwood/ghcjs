@@ -300,8 +300,6 @@ main = do
       mapM_ addCheckpoint ["ghcjs-boot checkpoints file", "init"]
       installBuildTools
       bool (e ^. beSettings . bsDev) installDevelopmentTree installReleaseTree
-      when (True) ((liftIO $ putStrLn "DONE WITH DEV TREE") >> (liftIO $ exitFailure))
-
       initPackageDB
       cleanCache
       installRts
