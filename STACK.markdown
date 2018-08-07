@@ -25,5 +25,6 @@ You should then be able to run stack test as normal. To run specific tests use s
     stack test --test-arguments "-t glob/to/match/* -j4"
 
 To build source distribution
-
+    
+    # stack install alex and happy if you don't have them already
     stack exec --no-ghc-package-path cabal sdist
