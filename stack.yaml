@@ -5,7 +5,7 @@
 # $ ./utils/makePackages.sh
 #
 
-resolver: lts-10.3
+resolver: lts-11.20
 packages:
   - .
   - ./lib/ghc-api-ghcjs

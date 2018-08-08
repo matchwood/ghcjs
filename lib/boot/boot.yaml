@@ -48,6 +48,7 @@ packages:
     - ./pkg/pretty
     - ./pkg/template-haskell
     - ./pkg/process
+    - ./pkg/primitive
     - ./pkg/time
     - IfUnix:    ./pkg/unix
     - IfWindows: ./pkg/Win32
