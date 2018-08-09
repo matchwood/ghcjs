@@ -1,6 +1,6 @@
 diff -Nru upstream/pkg/integer-gmp/integer-gmp.buildinfo.in boot/pkg/integer-gmp/integer-gmp.buildinfo.in
---- upstream/pkg/integer-gmp/integer-gmp.buildinfo.in	2018-01-09 08:27:52.000000000 +0000
-+++ boot/pkg/integer-gmp/integer-gmp.buildinfo.in	2018-01-09 08:27:52.990576464 +0000
+--- upstream/pkg/integer-gmp/integer-gmp.buildinfo.in	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/integer-gmp/integer-gmp.buildinfo.in	2018-08-09 18:45:25.280231257 +0100
 @@ -2,4 +2,4 @@
  extra-lib-dirs: @GMP_LIB_DIRS@
  extra-libraries: @GMP_LIBS@
@@ -8,8 +8,8 @@ diff -Nru upstream/pkg/integer-gmp/integer-gmp.buildinfo.in boot/pkg/integer-gmp
 -install-includes: HsIntegerGmp.h ghc-gmp.h
 +install-includes: HsIntegerGmp.h
 diff -Nru upstream/pkg/integer-gmp/integer-gmp.cabal boot/pkg/integer-gmp/integer-gmp.cabal
---- upstream/pkg/integer-gmp/integer-gmp.cabal	2018-01-09 08:27:52.000000000 +0000
-+++ boot/pkg/integer-gmp/integer-gmp.cabal	2018-01-09 08:27:52.990576464 +0000
+--- upstream/pkg/integer-gmp/integer-gmp.cabal	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/integer-gmp/integer-gmp.cabal	2018-08-09 18:45:25.280231257 +0100
 @@ -64,6 +64,9 @@
    c-sources:
      cbits/wrappers.c
@@ -21,8 +21,8 @@ diff -Nru upstream/pkg/integer-gmp/integer-gmp.cabal boot/pkg/integer-gmp/intege
      GHC.Integer
      GHC.Integer.Logarithms
 diff -Nru upstream/pkg/integer-gmp/jsbits/ghcjsbn.js boot/pkg/integer-gmp/jsbits/ghcjsbn.js
---- upstream/pkg/integer-gmp/jsbits/ghcjsbn.js	1970-01-01 00:00:00.000000000 +0000
-+++ boot/pkg/integer-gmp/jsbits/ghcjsbn.js	2018-01-09 08:27:52.994576047 +0000
+--- upstream/pkg/integer-gmp/jsbits/ghcjsbn.js	1970-01-01 01:00:00.000000000 +0100
++++ boot/pkg/integer-gmp/jsbits/ghcjsbn.js	2018-08-09 18:45:25.280231257 +0100
 @@ -0,0 +1,4026 @@
 +/*
 +   GHCJS bignum library for integer-gmp package
@@ -4051,8 +4051,8 @@ diff -Nru upstream/pkg/integer-gmp/jsbits/ghcjsbn.js boot/pkg/integer-gmp/jsbits
 +  return r;
 +}
 diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs boot/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs
---- upstream/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs	2018-01-09 08:27:52.000000000 +0000
-+++ boot/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs	2018-01-09 08:27:52.994576047 +0000
+--- upstream/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs	2018-08-09 18:45:25.280231257 +0100
 @@ -1,4 +1,5 @@
  {-# LANGUAGE BangPatterns #-}
 +
@@ -4173,8 +4173,8 @@ diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/GMP/Internals.hs boot/pkg/int
  -- | Compute next prime greater than @/n/@ probalistically.
  --
 diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs boot/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs
---- upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs	2018-01-09 08:27:52.000000000 +0000
-+++ boot/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs	2018-01-09 08:27:52.994576047 +0000
+--- upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs	2018-08-09 18:45:25.280231257 +0100
 @@ -2,6 +2,11 @@
  {-# LANGUAGE MagicHash #-}
  {-# LANGUAGE UnboxedTuples #-}
@@ -4227,8 +4227,8 @@ diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms/Internals.hs boot/
                          _   -> 2#
 +#endif
 diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs boot/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs
---- upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs	2018-01-09 08:27:52.000000000 +0000
-+++ boot/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs	2018-01-09 08:27:52.994576047 +0000
+--- upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs	2018-08-09 18:45:25.280231257 +0100
 @@ -4,6 +4,9 @@
  {-# LANGUAGE UnliftedFFITypes #-}
  {-# LANGUAGE CPP #-}
@@ -4289,8 +4289,8 @@ diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/Logarithms.hs boot/pkg/intege
  -- | Compute base-2 log of 'Word#'
  --
 diff -Nru upstream/pkg/integer-gmp/src/GHC/Integer/Type.hs boot/pkg/integer-gmp/src/GHC/Integer/Type.hs
---- upstream/pkg/integer-gmp/src/GHC/Integer/Type.hs	2018-01-09 08:27:52.000000000 +0000
-+++ boot/pkg/integer-gmp/src/GHC/Integer/Type.hs	2018-01-09 08:27:52.994576047 +0000
+--- upstream/pkg/integer-gmp/src/GHC/Integer/Type.hs	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/integer-gmp/src/GHC/Integer/Type.hs	2018-08-09 18:45:25.280231257 +0100
 @@ -9,6 +9,9 @@
  {-# LANGUAGE RebindableSyntax #-}
  {-# LANGUAGE NegativeLiterals #-}

@@ -1,6 +1,6 @@
 diff -Nru upstream/pkg/directory/directory.cabal boot/pkg/directory/directory.cabal
---- upstream/pkg/directory/directory.cabal	2018-02-15 22:31:55.000000000 +0000
-+++ boot/pkg/directory/directory.cabal	2018-02-15 22:31:55.853451570 +0000
+--- upstream/pkg/directory/directory.cabal	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/directory/directory.cabal	2018-08-09 18:45:25.128231044 +0100
 @@ -57,6 +57,8 @@
          base     >= 4.5 && < 4.11,
          time     >= 1.4 && < 1.9,
@@ -11,8 +11,8 @@ diff -Nru upstream/pkg/directory/directory.cabal boot/pkg/directory/directory.ca
          build-depends: Win32 >= 2.2.2 && < 2.6
      else
 diff -Nru upstream/pkg/directory/System/Directory/Internal/Config.hs boot/pkg/directory/System/Directory/Internal/Config.hs
---- upstream/pkg/directory/System/Directory/Internal/Config.hs	2018-02-15 22:31:55.000000000 +0000
-+++ boot/pkg/directory/System/Directory/Internal/Config.hs	2018-03-11 14:45:47.915527151 +0000
+--- upstream/pkg/directory/System/Directory/Internal/Config.hs	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/directory/System/Directory/Internal/Config.hs	2018-08-09 18:45:25.128231044 +0100
 @@ -1,13 +1,27 @@
  {-# LANGUAGE CPP #-}
 +#if defined(ghcjs_HOST_OS)
@@ -42,8 +42,8 @@ diff -Nru upstream/pkg/directory/System/Directory/Internal/Config.hs boot/pkg/di
  -- builds, so we use this ugly workaround where we simply paste the C string
  -- literal directly in here.  This will probably break if the EXE_EXTENSION
 diff -Nru upstream/pkg/directory/System/Directory.hs boot/pkg/directory/System/Directory.hs
---- upstream/pkg/directory/System/Directory.hs	2018-02-15 22:31:55.000000000 +0000
-+++ boot/pkg/directory/System/Directory.hs	2018-03-11 14:48:42.759720101 +0000
+--- upstream/pkg/directory/System/Directory.hs	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/directory/System/Directory.hs	2018-08-09 18:45:25.128231044 +0100
 @@ -1,9 +1,17 @@
  {-# LANGUAGE CPP #-}
 +#if !defined(mingw32_HOST_OS) && !defined(ghcjs_HOST_OS)

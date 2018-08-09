@@ -1,6 +1,6 @@
 diff -Nru upstream/pkg/time/lib/Data/Time/Clock/Internal/CTimespec.hsc boot/pkg/time/lib/Data/Time/Clock/Internal/CTimespec.hsc
---- upstream/pkg/time/lib/Data/Time/Clock/Internal/CTimespec.hsc	2018-01-09 08:27:54.000000000 +0000
-+++ boot/pkg/time/lib/Data/Time/Clock/Internal/CTimespec.hsc	2018-01-09 08:27:54.718402618 +0000
+--- upstream/pkg/time/lib/Data/Time/Clock/Internal/CTimespec.hsc	2018-08-09 18:45:25.000000000 +0100
++++ boot/pkg/time/lib/Data/Time/Clock/Internal/CTimespec.hsc	2018-08-09 18:45:25.580231678 +0100
 @@ -1,5 +1,80 @@
  module Data.Time.Clock.Internal.CTimespec where
  
