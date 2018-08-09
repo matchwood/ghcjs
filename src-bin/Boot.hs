@@ -133,6 +133,7 @@ data BootSettings = BootSettings
   , _bsDebug        :: Bool       {- ^build debug version of the libraries
                                       (GHCJS records the STG in the object
                                       files for easier inspection) -}
+  , _bsClean        :: Bool       {- ^no-op for stack compatibility -}
   , _bsProf         :: Bool       -- ^build profiling version of the libraries
   , _bsHaddock      :: Bool       -- ^build documentation
   , _bsVerbosity    :: Verbosity  -- ^verbosity level 0..3, 2 is default
@@ -381,6 +382,9 @@ optParser =
           (long "debug" <>
            short 'd' <>
            help "build debug libraries with extra checks")
+    <*> switch
+          (long "clean" <>
+           help "no-op - for stack compatibility")
     <*> (fmap not . switch)
           (long "no-prof" <>
            help "don't generate profiling version of the libraries")

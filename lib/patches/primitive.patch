@@ -1,6 +1,6 @@
 diff -Nru upstream/pkg/primitive/Data/Primitive/Internal/Operations.hs boot/pkg/primitive/Data/Primitive/Internal/Operations.hs
---- upstream/pkg/primitive/Data/Primitive/Internal/Operations.hs	2018-01-09 08:27:53.000000000 +0000
-+++ boot/pkg/primitive/Data/Primitive/Internal/Operations.hs	2018-01-09 08:27:53.638510582 +0000
+--- upstream/pkg/primitive/Data/Primitive/Internal/Operations.hs	2018-08-09 15:38:28.000000000 +0100
++++ boot/pkg/primitive/Data/Primitive/Internal/Operations.hs	2018-08-09 15:38:28.347075529 +0100
 @@ -1,4 +1,4 @@
 -{-# LANGUAGE MagicHash, UnliftedFFITypes #-}
 +{-# LANGUAGE MagicHash, UnliftedFFITypes, CPP #-}
@@ -61,3 +61,15 @@ diff -Nru upstream/pkg/primitive/Data/Primitive/Internal/Operations.hs boot/pkg/
  foreign import ccall unsafe "primitive-memops.h hsprimitive_memset_Word8"
    setWord8OffAddr# :: Addr# -> CPtrdiff -> CSize -> Word# -> IO ()
  foreign import ccall unsafe "primitive-memops.h hsprimitive_memset_Word16"
+diff -Nru upstream/pkg/primitive/primitive.cabal boot/pkg/primitive/primitive.cabal
+--- upstream/pkg/primitive/primitive.cabal	2018-08-09 15:38:28.000000000 +0100
++++ boot/pkg/primitive/primitive.cabal	2018-08-09 17:32:06.114247873 +0100
+@@ -36,7 +36,7 @@
+         Data.Primitive.Internal.Compat
+         Data.Primitive.Internal.Operations
+ 
+-  Build-Depends: base >= 4.3 && < 4.9
++  Build-Depends: base >= 4.3 && < 4.11
+                , ghc-prim >= 0.2 && < 0.5
+                , transformers >= 0.2 && < 0.5
+ 
