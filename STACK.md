@@ -24,6 +24,14 @@ install ghcjs-boot branch lts-11.20
      stack exec cabal install -- --ghcjs --with-compiler /code/ghcjs/ghcjs/.stack-work/install/x86_64-linux/lts-11.20/8.2.2/bin/ghcjs --with-hc-pkg /code/ghcjs/ghcjs/.stack-work/install/x86_64-linux/lts-11.20/8.2.2/bin/ghcjs-pkg /path/to/local/ghcjs-base
 
 
+for building eg old-time 
+stack install hsc2hs
+
+
+Current test failures
+
+ghc/concurrent/t4030.hs (: node, optimization: False) -- process killed after timeout
+ghc/codeGen/5129.hs (: node, optimization: True) -- "must throw when given a negative number" (doesn't evaluate error?)
 
 
 
