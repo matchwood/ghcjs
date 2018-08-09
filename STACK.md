@@ -37,5 +37,6 @@ ghc/codeGen/5129.hs (: node, optimization: True) -- "must throw when given a neg
 ## sdist
 
    
-    stack build
     stack exec --no-ghc-package-path cabal sdist
+
+manually add lib/ to the .tar.gz, excluding .stack-work folders and following symlinks
